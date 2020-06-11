@@ -9,10 +9,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.esoltecnologia.cursomc.domain.Categoria;
 import com.esoltecnologia.cursomc.domain.Cidade;
+import com.esoltecnologia.cursomc.domain.Cliente;
+import com.esoltecnologia.cursomc.domain.Endereco;
 import com.esoltecnologia.cursomc.domain.Estado;
 import com.esoltecnologia.cursomc.domain.Produto;
+import com.esoltecnologia.cursomc.domain.enuns.TipoCliente;
 import com.esoltecnologia.cursomc.repositories.CategoriaRepository;
 import com.esoltecnologia.cursomc.repositories.CidadeRepository;
+import com.esoltecnologia.cursomc.repositories.ClienteRepository;
+import com.esoltecnologia.cursomc.repositories.EnderecoRepository;
 import com.esoltecnologia.cursomc.repositories.EstadoRepository;
 import com.esoltecnologia.cursomc.repositories.ProdutoRepository;
 
@@ -23,12 +28,15 @@ public class CursomcApplication implements CommandLineRunner {
 	private CategoriaRepository categoriaRep;
 	@Autowired
 	private ProdutoRepository produtoRep;
-
 	@Autowired
 	private EstadoRepository estadoRep;
 	@Autowired
 	private CidadeRepository cidadeRep;
-
+	@Autowired
+	private ClienteRepository clienteRep;
+	@Autowired
+	private EnderecoRepository enderecoRep;
+	
 	public static void main(String[] args) {
 		SpringApplication.run(CursomcApplication.class, args);
 	}
@@ -67,6 +75,27 @@ public class CursomcApplication implements CommandLineRunner {
 		
 		estadoRep.saveAll(Arrays.asList(est1, est2));
 		cidadeRep.saveAll(Arrays.asList(c1, c2, c3));
+		
+		Cliente cli1 = new Cliente(null, "Maria das Dores","maria@gmail.com","36378912377", TipoCliente.PESSOAFISICA);
+		cli1.getTelefones().addAll(Arrays.asList("999999999", "9888888888"));
+		
+		Endereco e1 = new Endereco(null, "Rua flores", "300", "Apto 203", "Jardim", "38220834", cli1, c1);
+		Endereco e2 = new Endereco(null, "Av Matos", "105", "Sala 800", "Centro", "68220533", cli1, c2);
+		
+		cli1.getEnderecos().addAll(Arrays.asList(e1, e2));
+		
+		clienteRep.saveAll(Arrays.asList(cli1));
+		enderecoRep.saveAll(Arrays.asList(e1, e2));
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 }
 
 }
