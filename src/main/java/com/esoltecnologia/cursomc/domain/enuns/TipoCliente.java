@@ -27,12 +27,12 @@ public enum TipoCliente {
 			return null;
 		}
 		
-		for(TipoCliente x : TipoCliente.values()) {
+		for (TipoCliente x : TipoCliente.values()) {
 			if (cod.equals(x.getCod())) {
 				return x;
 			}
 		}
-		throw new IllegalArgumentException("Tipo Cliente " + cod);
+		throw new IllegalArgumentException("Tipo Cliente: " + cod);
 	}
 	
 }
