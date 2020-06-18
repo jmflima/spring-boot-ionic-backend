@@ -18,7 +18,7 @@ public class ClienteResource {
 	private ClienteService servico;
 	
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
-	public ResponseEntity<?> find(@PathVariable Integer id) {
+	public ResponseEntity<Cliente> find(@PathVariable Integer id) {
 		
 		Cliente obj = servico.buscar(id); /*impôe a o controlador Rest acesso ao Service passando id*/
 		
