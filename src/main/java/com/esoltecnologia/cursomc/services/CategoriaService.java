@@ -1,5 +1,6 @@
 package com.esoltecnologia.cursomc.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +44,10 @@ public class CategoriaService {
 			throw new DataIntegrityException("Não é possível excluir uma Categoria com Produtos");
 			
 		}
+	}
+	
+	public List<Categoria> buscarTodos() {
+		return repo.findAll();
 	}
 
 }
