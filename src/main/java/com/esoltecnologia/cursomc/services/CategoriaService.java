@@ -36,8 +36,9 @@ public class CategoriaService {
 	}
 	
 	public Categoria update(Categoria obj) {
-		buscar(obj.getId());
-		return repo.save(obj);
+		Categoria novoObj = buscar(obj.getId());
+		atualizarDados(novoObj, obj);	/*adiciona as alterações de nome e email ao restante do objeto */
+		return repo.save(novoObj);
 	}
 
 	public void delete(Integer id) {
@@ -64,5 +65,8 @@ public class CategoriaService {
 		return new Categoria(objDto.getId(), objDto.getNome());
 	}
 
+	private void atualizarDados(Categoria novoObj, Categoria obj) {
+		novoObj.setNome(obj.getNome());
+	}
 }
 
