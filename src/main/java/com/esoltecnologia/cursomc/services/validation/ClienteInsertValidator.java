@@ -31,16 +31,16 @@ public class ClienteInsertValidator implements ConstraintValidator<ClienteInsert
 // inserindo erros na lista
 		
 		if(objDto.getTipo().equals(TipoCliente.PESSOAFISICA.getCod()) && !BR.isValidCPF(objDto.getCpfOuCnpj())) {
-			list.add(new FieldMessage("cpfOuCnpj", "CPF Inválido"));
+			list.add(new FieldMessage("cpfOuCnpj", "INCLUSÃO ABORTADA: CPF inválido"));
 		}
 		
 		if(objDto.getTipo().equals(TipoCliente.PESSOAJURIDICA.getCod()) && !BR.isValidCNPJ(objDto.getCpfOuCnpj())) {
-			list.add(new FieldMessage("cpfOuCnpj", "CNPJ Inválido"));
+			list.add(new FieldMessage("cpfOuCnpj", "INCLUSÃO ABORTADA: CNPJ inválido"));
 		}
 		
 		Cliente aux = repo.findByEmail(objDto.getEmail());
 		if (aux != null) {
-			list.add(new FieldMessage("email", "Este Email já existe"));
+			list.add(new FieldMessage("email", "INCLUSÃO ABORTADA: Este Email já foi cadastrado"));
 		}
 		
 		for (FieldMessage e : list) {
