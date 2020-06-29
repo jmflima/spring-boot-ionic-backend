@@ -33,8 +33,9 @@ public class ProdutoService {
 	public Page<Produto> pesquisaProd(String nome, List<Integer> ids, Integer page, Integer linesPerPage, String orderBy, String direction){
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
 		List<Categoria> categorias = categoriaRepo.findAllById(ids);
-		//return produtoRepo.pesquisar(nome, categorias, pageRequest);
-		return produtoRepo.findDistinctByNomeContainingAndCategoriasIn(nome, categorias, pageRequest);
+		return produtoRepo.pesquisar(nome, categorias, pageRequest);
+		
+		//return produtoRepo.findDistinctByNomeContainingAndCategoriasIn(nome, categorias, pageRequest);
 	}
 }
 
