@@ -49,7 +49,6 @@ public class DBService {
 	private PedidoRepository pedidoRep;
 	@Autowired
 	private PagamentoRepository pagamentoRep;
-
 	@Autowired
 	private ItemPedidoRepository itempedidoRep;
 	
@@ -62,6 +61,7 @@ public class DBService {
 		Categoria cat5 = new Categoria(null, "Jardinagem");
 		Categoria cat6 = new Categoria(null, "Decoração");
 		Categoria cat7 = new Categoria(null, "Perfumaria");
+//		Categoria cat8 = new Categoria(null, "Teste");
 
 		Produto prod1 = new Produto(null, "Computador", 2000.00);
 		Produto prod2 = new Produto(null, "Impressora", 800.00);
