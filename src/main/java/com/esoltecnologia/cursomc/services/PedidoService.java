@@ -5,11 +5,14 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.esoltecnologia.cursomc.domain.Cliente;
 import com.esoltecnologia.cursomc.domain.ItemPedido;
 import com.esoltecnologia.cursomc.domain.PagamentoComBoleto;
 import com.esoltecnologia.cursomc.domain.Pedido;
 import com.esoltecnologia.cursomc.domain.enuns.EstadoPagamento;
+import com.esoltecnologia.cursomc.repositories.ClienteRepository;
 import com.esoltecnologia.cursomc.repositories.ItemPedidoRepository;
 import com.esoltecnologia.cursomc.repositories.PagamentoRepository;
 import com.esoltecnologia.cursomc.repositories.PedidoRepository;
@@ -34,15 +37,23 @@ public class PedidoService {
 	@Autowired
 	private ProdutoRepository produtoRepo;
 	
+	@Autowired
+	private ProdutoService produtoServ;
+
+	@Autowired
+	private ClienteService clienteServ;
+
 	public Pedido buscar(Integer id) {
 		Optional<Pedido> obj = repo.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException(
 		"Objeto não encontrado! Id: " + id + ", Tipo: " + Pedido.class.getName()));
 	}
 
+	@Transactional
 	public Pedido insert(Pedido obj) {
 		obj.setId(null);
 		obj.setInstante(new Date());
+		obj.setCliente(clienteServ.buscar(obj.getCliente().getId()));
 		obj.getPagamento().setEstado(EstadoPagamento.PENDENTE);
 		obj.getPagamento().setPedido(obj);
 		if(obj.getPagamento() instanceof PagamentoComBoleto) {
@@ -56,10 +67,13 @@ public class PedidoService {
 		for(ItemPedido ip : obj.getItens()) {
 			/*percorrendo todos os itens de pedido associados ao objeto getItens i pra cada ítem calcular*/
 			ip.setDesconto(0.0);
-			ip.setPreco(produtoRepo.findById(ip.getProduto().getId()).get().getPreco());
+			ip.setProduto(produtoServ.buscar(ip.getProduto().getId()));
+//			ip.setPreco(produtoRepo.findById(ip.getProduto().getId()).get().getPreco());
+			ip.setPreco(ip.getProduto().getPreco());
 			ip.setPedido(obj);
 		}
 		itemPedidoRepo.saveAll(obj.getItens());
+		System.out.println(obj);
 		return obj;
 
 	}
