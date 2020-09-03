@@ -7,12 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.esoltecnologia.cursomc.domain.Cliente;
 import com.esoltecnologia.cursomc.domain.ItemPedido;
 import com.esoltecnologia.cursomc.domain.PagamentoComBoleto;
 import com.esoltecnologia.cursomc.domain.Pedido;
 import com.esoltecnologia.cursomc.domain.enuns.EstadoPagamento;
-import com.esoltecnologia.cursomc.repositories.ClienteRepository;
 import com.esoltecnologia.cursomc.repositories.ItemPedidoRepository;
 import com.esoltecnologia.cursomc.repositories.PagamentoRepository;
 import com.esoltecnologia.cursomc.repositories.PedidoRepository;
@@ -42,6 +40,9 @@ public class PedidoService {
 
 	@Autowired
 	private ClienteService clienteServ;
+	
+	@Autowired
+	private EmailService emailServ;
 
 	public Pedido buscar(Integer id) {
 		Optional<Pedido> obj = repo.findById(id);
@@ -73,7 +74,7 @@ public class PedidoService {
 			ip.setPedido(obj);
 		}
 		itemPedidoRepo.saveAll(obj.getItens());
-		System.out.println(obj);
+		emailServ.sendOrderConfirmationEmail(obj);
 		return obj;
 
 	}
